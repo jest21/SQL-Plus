@@ -1,0 +1,214 @@
+
+SQL> create table book_recj13(access_no int primary key,isbn_no int);
+
+Table created.
+
+SQL> create table booksj13(isbn_no int primary key,author varchar(50),publisher
+varchar(50),price number(7,2) not null);
+
+Table created.
+
+SQL> create table membersj13(member_id int primary key,member_name varchar(50) n
+ot null,maxbooks_issued int not null,maxdays_issued int not null);
+
+Table created.
+
+alter table membersj13 modify maxbooks_issued int check (maxbooks_issued<4);
+
+alter table membersj13 modify maxdays_issued int check (maxdays_issued<8);
+
+SQL> create table book_issuej13(member_id int references membersj13(member_id),a
+ccess_no int references book_recj13(access_no),issue_date date not null,return_d
+ate date not null);
+alter table book_issuej13 modify return_date date null;
+alter table book_issuej13 modify issue_date date null;
+
+Table created.
+
+
+alter table book_recj13 add foreign key(isbn_no) references booksj13(isbn_no);
+
+Table altered.
+SQL> insert into book_recj13(access_no) values(1001);
+
+1 row created.
+
+SQL> insert into book_recj13(access_no) values(1002);
+
+1 row created.
+
+SQL> insert into book_recj13(access_no) values(1003);
+ 
+insert into book_recj13(access_no,isbn_no) values(1004,502);
+insert into book_recj13(access_no,isbn_no) values(1005,503);
+insert into book_recj13(access_no,isbn_no) values(1006,503);
+
+
+1 row created.
+
+SQL> insert into booksj13 values(501,'carolin kane','jj publications',345);
+
+1 row created.
+
+SQL> insert into booksj13 values(502,'robin robert','dc publications',450);
+
+1 row created.
+
+SQL> insert into booksj13 values(503,'hawai karen','matha publications',400);
+
+1 row created.
+
+insert into booksj13 values(504,'robert rowling','jk books',550);
+
+SQL> insert into membersj13 values(1110,'hitha',3,7);
+
+1 row created.
+
+SQL> insert into membersj13 values(1111,'joyal',2,7);
+
+1 row created.
+
+SQL> insert into membersj13 values(1112,'sonia',3,6);
+
+1 row created.
+
+insert into membersj13 values(1113,'sonu',3,7);
+
+
+SQL> insert into book_issuej13 values(1110,1001,'12-apr-2016','18-apr-2016');
+
+1 row created.
+
+SQL> insert into book_issuej13 values(1111,1002,'13-mar-2016','20-mar-2016');
+
+1 row created.
+
+insert into book_issuej13 values(1112,1003,'01-jan-2005','07-jan-2005');
+
+
+insert into book_issuej13(member_id,access_no,issue_date) values(1111,1004,'06-jul-2007');
+insert into book_issuej13(member_id,access_no,issue_date) values(1112,1005,'07-jul-2004');
+insert into book_issuej13(member_id,access_no,issue_date,return_date) values(1112,1006,'07-aug-2009','15-aug-2009');
+insert into book_issuej13(member_id) values(1114);
+
+update book_recj13 set isbn_no=501 where access_no=1001;
+update book_recj13 set isbn_no=502 where access_no=1002;
+update book_recj13 set isbn_no=503 where access_no=1003;
+
+desc book_recj13;
+desc booksj13;
+desc membersj13;
+desc book_issuej13;
+
+comment on table book_recj13 is 'this is a table for entering books record';
+comment on table booksj13 is 'this is a table for entering books details';
+comment on table membersj13 is 'this is a table for entering member details';
+comment on table book_issuej13 is 'this is a table for entering book issueing details';
+
+comment on column book_recj13.access_no is 'accession number of book';
+comment on column booksj13.isbn_no is 'unique isbn number of book';
+comment on column book_recj13.isbn_no is 'unique isbn number of book';
+comment on column booksj13.author is 'author of book';
+comment on column booksj13.publisher is 'publisher of book';
+comment on column booksj13.price is 'cost of book';
+
+comment on column membersj13.member_id is 'identity of member';
+comment on column membersj13.member_name is 'name of member';
+comment on column membersj13.maxbooks_issued is 'max books issued';
+comment on column membersj13.maxdays_issued is 'max days book issued';
+
+comment on column book_issuej13.member_id is 'identity of member';
+comment on column book_issuej13.access_no is 'accession number';
+comment on column book_issuej13.issue_date is 'issueing date';
+comment on column book_issuej13.return_date is 'returning date';
+
+select * from user_tab_comments;
+select * from user_col_comments;
+
+select * from book_recj13;
+select * from booksj13;
+select * from membersj13;
+select * from book_issuej13;
+
+select isbn_no,author,publisher from booksj13;
+
+select member_id,member_name from membersj13;
+
+select access_no from book_recj13;
+
+SQL> select book_issuej13.member_id, ((book_issuej13.return_date-book_issuej13.issue_date)-membersj13.maxdays_issued)*10 as fine from book_issuej13 inner join membersj13 on book_issuej13.member_id=membersj13.member_id where (book_issuej13.return_date-book_issuej13.issue_date)>membersj13.maxdays_issued;
+
+ MEMBER_ID       FINE
+---------- ----------
+      1112         30
+
+select access_no,issue_date from book_issuej13;
+
+
+insert into book_issuej13 values(1112,1003,'01-jan-2005','10-jan-2005');
+select access_no from book_issuej13 where issue_date='01-jan-2005';
+
+insert into booksj13 values(504,'robert ronald','dc books','550')
+select isbn_no,author from booksj13 where price>500;
+
+insert into membersj13 values(1114,'tinu',null,null);
+SQL> select member_id,member_name from membersj13 where maxbooks_issued is null;
+
+ MEMBER_ID MEMBER_NAME
+---------- --------------------------------------------------
+      1114 tinu
+select membersj13.member_id,membersj13.member_name from membersj13 inner join book_issuej13 on membersj13.member_id=book_issuej13.member_id where book_issuej13.return_date is null;
+
+SQL> select membersj13.member_id,membersj13.member_name from membersj13 inner join book_issuej13 on membersj13.member_id=book_issuej13.member_id where book_issuej13.issue_date is null;
+
+SQL> select isbn_no,count(isbn_no) from booksj13 group by isbn_no;
+
+   ISBN_NO COUNT(ISBN_NO)
+---------- --------------
+       501              1
+       502              1
+       503              1
+       504              1
+
+select member_id,member_name from membersj13 where maxbooks_issued=max(maxbooks_issued);
+
+select member_id,member_name,max(maxbooks_issued) from membersj13;
+
+
+select member_name from membersj13 where member_id=(select member_id from book_issuej13  where issue_date=
+null);
+
+select member_id,access_no from book_issuej13 where issue_date between '10-mar-2016' and '20-apr-2016';
+ MEMBER_ID  ACCESS_NO
+---------- ----------
+      1110       1001
+      1111       1002
+
+
+SQL> select isbn_no,count(isbn_no) from book_recj13 group by isbn_no;
+
+   ISBN_NO COUNT(ISBN_NO)
+---------- --------------
+       502              2
+       503              3
+       501              1
+
+select isbn_no,count(isbn_no) from book_recj13 group by isbn_no having isbn_no=503;
+ ISBN_NO   COUNT(ISBN_NO)
+---------- --------------
+       503              3
+
+insert into book_recj13 values(1007,501);
+insert into book_recj13 values(1008,501);
+insert into book_issuej13(member_id,access_no,issue_date) values(1111,1007,'09-jul-2007');
+insert into book_issuej13(member_id,access_no,issue_date) values(1111,1008,'13-jul-2004');
+
+select member_id,count(member_id) from book_issuej13 group by member_id having count(return_date) is null;
+
+SQL> select membersj13.member_id,membersj13.member_name,membersj13.maxbooks_issued from membersj13 where maxbooks_issued=3;
+
+ MEMBER_ID MEMBER_NAME                                        MAXBOOKS_ISSUED
+---------- -------------------------------------------------- ---------------
+      1111 joyal                                                            3
+      1112 sonia                                                            3
+
