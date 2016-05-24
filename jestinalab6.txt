@@ -1,0 +1,89 @@
+SQL> create table employee(emp_no number not null,name varchar(50) not null,
+     dept_no number not null,salary number(10,2),primary key(emp_no,dept_no));
+
+SQL> create table department(dept_no number not null primary key,dept_name varchar(50) not null);
+
+insert into employee values('A100','kevin jeen',10,10000);
+insert into employee values('A101','febin john',20,12000);
+insert into employee values('A102','riya menon',30,15000);
+insert into employee values('A103','rahul sharma',40,10000);
+insert into employee values('A104','jeslin ann',20,9000);
+insert into employee values('A105','anu beb',50,11000);
+
+insert into department values(10,'production');
+insert into department values(20,'marketing');
+insert into department values(30,'sales');
+
+SQL> select * FROM EMPLOYEE where dept_no not in(select dept_no from department);
+
+EMP_NO                    NAME
+------------------------- --------------------------------------------------
+   DEPT_NO     SALARY
+---------- ----------
+A103                      rahul sharma
+        40      10000
+
+A105                      anu beb
+        50      11000
+
+
+SQL> column emp_no heading 'employee number'
+SQL> column name heading 'employee name'
+SQL> column dept_no heading 'department number'
+SQL> column salary heading 'salary'
+SQL> select emp_no,name,dept_no,salary from employee;
+
+employee number           employee name
+------------------------- --------------------------------------------------
+department number     salary
+----------------- ----------
+A101                      febin john
+               20      12000
+
+A102                      riya menon
+               30      15000
+
+A103                      rahul sharma
+               40      10000
+
+
+employee number           employee name
+------------------------- --------------------------------------------------
+department number     salary
+----------------- ----------
+A104                      jeslin ann
+               20       9000
+
+A105                      anu beb
+               50      11000
+
+
+SQL>  select * from employee where salary < (select salary from employee where emp_no='A100');
+
+employee number           employee name
+------------------------- --------------------------------------------------
+department number     salary
+----------------- ----------
+A104                      jeslin ann
+               20       9000
+
+
+
+
+create table sales_data(region_code varchar(20) primary key,city varchar(25),
+salesperson_code number(20),sales_qty number);
+
+insert into sales_data values('r101','kochi',1001,60);
+insert into sales_data values('r102','edapally',1002,40);
+insert into sales_data values('r103','tvm',1003,100);
+insert into sales_data values('r104','trisure',1004,80);
+
+SQL> select * from sales_data where sales_qty>(select avg(sales_qty) from sales_data);
+
+REGION_CODE          CITY                      SALESPERSON_CODE  SALES_QTY
+-------------------- ------------------------- ---------------- ----------
+r103                 tvm                                   1003        100
+r104                 trisure                               1004         80
+
+
+select * from sales_data where sales_qty>(select avg(sales_qty) from sales_data); 
