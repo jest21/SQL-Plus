@@ -1,0 +1,103 @@
+SQL> alter table booksj13 add book_name varchar(20);
+
+Table altered.
+
+SQL> desc booksj13;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ISBN_NO                                   NOT NULL NUMBER(38)
+ AUTHOR                                             VARCHAR2(50)
+ PUBLISHER                                          VARCHAR2(50)
+ PRICE                                     NOT NULL NUMBER(7,2)
+ BOOK_NAME                                          VARCHAR2(20)
+
+SQL> update booksj13 set book_name='e-commerce' where isbn_no=501;
+
+1 row updated.
+
+SQL> update booksj13 set book_name='programming in c++' where isbn_no=502;
+
+1 row updated.
+
+SQL> update booksj13 set book_name='general infomatics' where isbn_no=503;
+
+1 row updated.
+
+SQL> update booksj13 set book_name='cost accounting' where isbn_no=504;
+
+1 row updated.
+
+
+
+select book_recj13.isbn_no,booksj13.author,count(book_rec.isbn_no)
+from book_recj13 inner join booksj13 on book_recj13.isbn_no=booksj13.isbn_no 
+group by book_recj13.isbn_no;
+
+select isbn_no,count(isbn_no) from book_recj13 group by isbn_no;
+
+
+select book_recj13.isbn_no,count(book_recj13.isbn_no),
+booksj13.author  
+from book_recj13 inner join booksj13 on book_recj13.isbn_no=booksj13.isbn_no group by book_recj13.isbn_no;
+
+booksj13.price*count(book_recj13.isbn_no)
+
+
+4. SQL> select member_id,count(*) from book_issuej13 group by member_id;
+
+ MEMBER_ID   COUNT(*)
+---------- ----------
+      1110          1
+      1112          3
+      1111          5
+      1114          1
+
+5.select max(price),avg(price) from booksj13;
+MAX(PRICE) AVG(PRICE)
+---------- ----------
+       550     436.25
+
+select member_id,member_name, maxdays_issued from membersj13;
+
+ MEMBER_ID MEMBER_NAME                                        MAXDAYS_ISSUED
+---------- -------------------------------------------------- --------------
+      1110 hitha                                                           7
+      1111 joyal                                                           7
+      1112 sonia                                                           6
+      1113 sonu                                                            7
+
+select member_id,member_name from membersj13 where maxbooks_issued=3;
+
+ MEMBER_ID MEMBER_NAME
+---------- --------------------------------------------------
+      1111 joyal
+      1112 sonia
+
+select member_id,member_name from membersj13 where maxbooks_issued>2;
+ MEMBER_ID MEMBER_NAME
+---------- --------------------------------------------------
+      1111 joyal
+      1112 sonia
+
+select access_no,issue_date from book_issue where return_date is null;
+
+select book_issuej13.access_no,book_issuej13.member_id,book_issuej13.issue_date,book_recj13.isbn_no 
+from book_issuej13 inner join book_recj13 on book_issuej13.access_no=book_recj13.access_no 
+where book_issuej13.return_date is null;
+
+ ACCESS_NO  MEMBER_ID ISSUE_DAT    ISBN_NO
+---------- ---------- --------- ----------
+      1004       1111 06-JUL-07        502
+      1005       1112 07-JUL-04        503
+      1007       1111 09-JUL-07        501
+      1008       1111 13-JUL-04        501
+
+insert into book_issuej13 values(1111,1001,'02-nov-09','09-nov-2009');
+SQL> select member_id,issue_date,return_date from book_issuej13 where access_no=1001;
+
+ MEMBER_ID ISSUE_DAT RETURN_DA
+---------- --------- ---------
+      1110 12-APR-16 18-APR-16
+      1111 02-NOV-09 09-NOV-09
+
+alter table booksj13 modify book_name varchar(35);
