@@ -1,0 +1,15 @@
+create table order_party(order_no number primary key,order_date date not null,
+cust_code number not null); 
+
+create table order_details(order_no number,item_code number,qty number not null,
+primary key(order_no,item_code));
+
+declare
+ order_no integer,
+ 
+ cust_code integer;
+
+begin
+ insert into order_party values(&order_no,&cust_code);
+end;
+/
