@@ -1,0 +1,36 @@
+
+ select * from membersj13 where exists(select member_id from book_issuej13 where issue_date is null);
+
+
+SQL> select * from membersj13 where member_id=any(select member_id from book_issuej13 where issue_date is not null);
+
+ MEMBER_ID MEMBER_NAME                                        MAXBOOKS_ISSUED
+---------- -------------------------------------------------- ---------------
+MAXDAYS_ISSUED
+--------------
+      1111 joyal                                                            3
+             7
+
+      1112 sonia                                                            3
+             6
+
+      1110 hitha                                                            1
+             7
+
+
+ SQL> select * from booksj13 where price=all(select max(price) from booksj13);
+
+   ISBN_NO AUTHOR
+---------- --------------------------------------------------
+PUBLISHER                                               PRICE
+-------------------------------------------------- ----------
+BOOK_NAME
+-----------------------------------
+       504 robert rowling
+jk books                                                  550
+cost accounting
+
+
+create view lib_view as select membersj13.member_id,membersj13.member_name,book_issuej13.issue_date 
+from membersj13 inner join book_issuej13 on membersj13.member_id=book_issuej13.member_id 
+where book_issuej13.return_date is null);)
