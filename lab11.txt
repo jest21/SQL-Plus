@@ -1,0 +1,102 @@
+LAB 11
+
+begin
+   for i in 1..100
+   loop
+   dbms_output.put_line(i);
+   end loop;
+  dbms_output.put_line('are whole numbers numbers');
+   end;
+   /
+
+
+//to print even numbers
+begin
+   for i in 1..100
+   loop
+   if mod(i,2)=0 then
+   dbms_output.put_line(i);
+   end if;
+   end loop;
+  dbms_output.put_line('are even numbers');
+   end;
+   /
+
+//to print odd numbers
+begin
+   for i in 1..100
+   loop
+   if mod(i,2)!=0 then
+   dbms_output.put_line(i);
+   end if;
+   end loop;
+  dbms_output.put_line('are odd numbers');
+   end;
+   /
+
+
+//to print even numbers upto n
+declare
+   n number;
+begin
+   n:=&n;
+   for i in 1..n
+   loop
+   if mod(i,2)=0 then
+   dbms_output.put_line(i);
+   end if;
+   end loop;
+  dbms_output.put_line('are even numbers upto '||n);
+   end;
+   /
+
+//to print odd numbers upto n
+declare
+ n number;
+begin
+   n:=&n;
+   for i in 1..n
+   loop
+   if mod(i,2)!=0 then
+   dbms_output.put_line(i);
+   end if;
+   end loop;
+  dbms_output.put_line('are odd numbers '||n);
+   end;
+   /
+
+
+
+//factorial of numbers 1 to 10
+declare
+temp number;
+fact number:=1;
+begin
+temp:=1;
+while temp<11
+loop
+fact:=temp*fact;
+dbms_output.put_line('factorial of number '||temp||' = '||fact);
+temp:=temp+1;
+end loop;
+end;
+/
+
+//fibinocci of numbers upto 100
+declare
+ f1 number;
+ f2 number;
+ f3 number;
+begin
+ f1:=0;
+ f2:=1;
+ f3:=0;
+ while f3<100
+ loop
+ dbms_output.put_line(f3);
+ f1:=f2;
+ f2:=f3;
+ f3:=f1+f2;
+ end loop;
+end;
+/
