@@ -1,0 +1,68 @@
+LAB 12
+
+
+//to find factorial using function
+create or replace function fact(n number)
+return number is
+i number;
+f number:=1;
+begin
+for i in 1..n
+loop
+f:=f*i;
+end loop;
+return(f);
+end fact;
+/
+
+declare
+f number;
+n number:=&n;
+begin
+f:=fact(n);
+dbms_output.put_line('factorial of '||n||'= '||f);
+end;
+/
+
+Enter value for n: 5
+old   3: n number:=&n;
+new   3: n number:=5;
+factorial of 5= 120
+
+
+PL/SQL procedure successfully completed.
+
+//function for fibinnoci numbers
+create or replace function fibn(n number)
+return number is
+i number;
+ f1 number;
+ f2 number;
+ f3 number;
+num number;
+begin
+ f1:=0;
+ f2:=1;
+ f3:=0;
+num:=1;
+while(num<n)
+ loop
+ dbms_output.put_line(f3);
+ f1:=f2;
+ f2:=f3;
+ f3:=f1+f2;
+ num:=num+1;
+end loop;
+return(f3);
+end fibn;
+/
+
+declare
+ result number;
+ n number:=&n;
+ num number:=1;
+begin
+ result:=fibn(n);
+end;
+
+
