@@ -1,0 +1,53 @@
+create table vendor13(day date,bought numeric(6),sold numeric(6),ret numeric(6),profitloss numeric(6));
+
+
+insert into vendor13 values('14-jan-2016',500,200,0,0);
+insert into vendor13 values('15-jan-2016',500,250,0,0);
+insert into vendor13 values('17-jan-2016',300,300,0,0);
+insert into vendor13 values('18-jan-2016',400,390,0,0);
+insert into vendor13 values('19-jan-2016',400,400,0,0);
+insert into vendor13 values('20-jan-2016',500,450,0,0);
+insert into vendor13 values('21-jan-2016',600,560,0,0);
+
+
+
+
+ declare
+ cursor ven is select * from vendor13 order by day;
+ vend vendor13%rowtype;
+ remark varchar2(10);
+ begin
+ dbms_output.put_line('date    no_bought    no_sold   no_returned   profitorloss   remark');
+ dbms_output.put_line('---------------------------------------------------------------');
+ open ven;
+ loop
+ fetch ven into vend;
+ exit when ven%notfound;
+ vend.ret:=vend.bought-vend.sold;
+ vend.profitloss:=vend.sold*.75+vend.ret*.3-vend.bought*.60;
+ if(vend.profitloss<0) then
+ remark:='loss';
+ elsif(vend.profitloss>0) then
+ remark:='profit';
+ else
+ remark:='nil';
+ end if;
+ update vendor13 set ret=vend.ret,profitloss=vend.profitloss where day=vend.day;
+ dbms_output.put_line(rpad(vend.day,10,' ')||lpad(vend.bought,8,' ')||lpad(vend.sold,10,' ')||lpad(vend.ret,10,' ')||lpad(vend.profitloss,15,' ')
+ ||lpad(remark,15,' '));
+ end loop;
+ end;
+ /
+
+
+date    no_bought    no_sold   no_returned   profitorloss   remark
+---------------------------------------------------------------
+14-JAN-16      500       200       300            -60           loss
+15-JAN-16      500       250       250            -38           loss
+17-JAN-16      300       300         0             45         profit
+18-JAN-16      400       390        10             56         profit
+19-JAN-16      400       400         0             60         profit
+20-JAN-16      500       450        50             53         profit
+21-JAN-16      600       560        40             72         profit
+
+PL/SQL procedure successfully completed.
