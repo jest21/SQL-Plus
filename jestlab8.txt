@@ -1,0 +1,44 @@
+create table studentj13
+( stud_id number primary key,
+  stud_name varchar(15) not null,
+  stud_add varchar(30) not null,
+  department varchar(15) not null,
+  phone number(10) not null);
+
+ insert into studentj13 values(1001,'viyola','kottamam','computer',9946399800);
+ insert into studentj13 values(1002,'thahani','pongam','commerce',8606453255);
+ insert into studentj13 values(1003,'jestina','angamaly','hotel mgnt',9605905313);
+ insert into studentj13 values(1004,'neha','naduvattum','nursing',9846944655); 
+ insert into studentj13 values(1005,'divya','kalady','banking',4842641098);
+
+set serveroutput on;
+create or replace procedure stud_pro
+as
+cursor studcursor is select* from studentj13 order by stud_name;
+begin 
+
+dbms_output.put_line('Naipunnya college,pongam ');
+dbms_output.put_line('Students Details ');
+dbms_output.put_line('stud_id  stud_name stud_add  department phone');
+for i in studcursor
+loop
+dbms_output.put_line((i.stud_id) ||' '|| (i.stud_name) ||' '|| (i.stud_add) ||' '|| (i.department) ||' '|| (i.phone));
+end loop;
+end;
+/
+
+begin
+stud_pro;
+end;
+/
+
+Naipunnya college,pongam
+Students Details
+stud_id  stud_name stud_add  department phone
+1005     divya      kalady   banking    4842641098
+1003     jestina    angamaly  hotel mgnt9605905313
+1004     neha      naduvattum nursing   9846944655
+1002     thahani    pongam    commerce  8606453255
+1001     viyola     kottamam  computer   9946399800
+
+PL/SQL procedure successfully completed.
