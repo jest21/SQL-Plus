@@ -1,0 +1,83 @@
+create table student_bca119
+(regno int primary key,
+name varchar(20) not null,
+paper1 number(3),
+paper2 number(3),
+paper3 number(3),
+paper4 number(3),
+paper5 number(3),
+total number(3),
+result varchar(6),
+grade varchar(2));
+
+
+insert into student_bca119
+(regno,name,paper1,paper2,paper3,paper4,paper5)
+values(236,'Reejo',82,76,73,81,80);
+insert into student_bca119
+(regno,name,paper1,paper2,paper3,paper4,paper5)
+values(245,'Geethu',56,45,78,66,45);
+insert into student_bca119
+(regno,name,paper1,paper2,paper3,paper4,paper5)
+values(262,'Jiya',58,61,36,45,65);
+insert into student_bca119
+(regno,name,paper1,paper2,paper3,paper4,paper5)
+values(228,'Rahul',92,88,90,89,95);
+insert into student_bca119
+(regno,name,paper1,paper2,paper3,paper4,paper5)
+values(238,'Jithu',73,92,58,67,59);
+insert into student_bca119
+(regno,name,paper1,paper2,paper3,paper4,paper5)
+values(242,'Navya',88,85,79,80,86);
+insert into student_bca119
+(regno,name,paper1,paper2,paper3,paper4,paper5)
+values(273,'Justy',75,70,69,72,68);
+insert into student_bca119
+(regno,name,paper1,paper2,paper3,paper4,paper5)
+values(266,'Manju',50,45,36,60,48);
+insert into student_bca119
+(regno,name,paper1,paper2,paper3,paper4,paper5)
+values(258,'Dixon',45,36,41,58,53);
+insert into student_bca119
+(regno,name,paper1,paper2,paper3,paper4,paper5)
+values(249,'Renjith',93,90,98,89,96);
+
+
+declare
+
+cursor student_cursor is select * from student_bca119;
+t number;
+p number;
+r varchar(6);
+g varchar(2);
+
+begin
+for student_rec in student_cursor
+loop
+t:=student_rec.paper1+student_rec.paper2+student_rec.paper3+student_rec.paper4+student_rec.paper5;
+
+update student_bca119 set total=t where regno=student_rec.regno;
+p:=t/5;
+if p>=90 then
+g:='A';
+elsif p>=75 and p<90 then
+g:='B';
+elsif p>=60 and p<75 then
+g:='C';
+elsif p>=50 and p<60 then
+g:='D';
+else
+g:='E';
+end if;
+update student_bca119 set grade=g where regno=student_rec.regno;
+if p>50 then
+r:='passed';
+else
+r:='failed';
+end if;
+update student_bca119 set result=r where regno=student_rec.regno;
+end loop;
+end;
+/
+
+select * from student_bca119 order by total desc;
