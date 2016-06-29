@@ -1,0 +1,35 @@
+create table hotelj13
+( cust_id int primary key,
+  cust_name varchar(20) not null,
+  item_code int,
+  items varchar(30) not null,
+  qty number not null,
+  price number not null);
+
+ insert into hotelj13 values(1263,'johny',4521,'rice',2,75);
+ insert into hotelj13 values(4627,'geo',1000,'biriyani',4,120);
+ insert into hotelj13 values(840,'paul',300,'juice',5,50);
+ insert into hotelj13 values(3895,'mary',500,'shakes',3,60);
+ insert into hotelj13 values(9755,'kala',2000,'rice',6,75);
+ 
+alter table hotelj13
+add total number;
+
+declare
+ total_amt hotelj13.total%type;
+begin
+for i in(select * from hotelj13)
+loop
+total_amt:=i.price*i.qty;
+update hotelj13 set total=total_amt where cust_id=i.cust_id;
+end loop;
+end;
+/
+
+
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from hotelj13
+
+   
