@@ -1,0 +1,58 @@
+create table salariesj13(empno char(10),name char(20),basic numeric(6));
+
+insert into salariesj13 values('1001','riya mathew',10000);
+insert into salariesj13 values('1002','arya don',12000);
+insert into salariesj13 values('1003','martin geo',15000);
+insert into salariesj13 values('1004','darwin',5000);
+
+
+   set serveroutput on;
+   declare
+   cursor sal is select * from salariesj13 order by basic desc;
+   vsal salariesj13%rowtype;
+   basic numeric;
+   da numeric;
+   gross numeric;
+   pf numeric;
+   net numeric;
+   annual numeric;
+   tax numeric;
+   begin
+   dbms_output.put_line('date:'||current_date);
+   dbms_output.put_line('LmntrX ltd');
+   dbms_output.put_line('salary report');
+   dbms_output.put_line('empno name                   basic   da   gross  pf  net_sal annual_sal  tax');
+   dbms_output.put_line('----------------------------------------------------------------------------');
+   open sal;
+   loop
+   fetch sal into vsal;
+   exit when sal%notfound;
+   da:=vsal.basic*.4;
+   gross:=vsal.basic+da;
+   pf:=vsal.basic*.1;
+   net:=gross-pf;
+   annual:=12*net;
+   case
+   when(annual<=100000) then tax:=0;
+   when(annual<=150000) then tax:=(annual-100000)*.1;
+   when(annual<=250000) then tax:=5000+(annual-150000)*.2;
+   else
+   tax:=25000+(annual-100000)*.3;
+   end case;
+   dbms_output.put_line(rpad(vsal.empno,8,' ')||rpad(vsal.name,15,' ')||'   '||lpad(vsal.basic,10,' ')||' '||da||' '||gross||' '||pf||' '||net||'    '||annual||'   '||tax);
+   end loop;
+   end;
+   /
+
+
+date:08-JUN-16
+LmntrX ltd
+salary report
+empno name                   basic   da   gross  pf  net_sal annual_sal  tax
+----------------------------------------------------------------------------
+1003    martin geo             15000 6000 21000 1500 19500    234000   21800
+1002    arya don               12000 4800 16800 1200 15600    187200   12440
+1001    riya mathew            10000 4000 14000 1000 13000    156000   6200
+1004    darwin                  5000 2000 7000 500 6500    78000         0
+
+PL/SQL procedure successfully completed.
