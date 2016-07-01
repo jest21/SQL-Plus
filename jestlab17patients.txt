@@ -1,0 +1,91 @@
+a) PATIENTS WITH BLOOD TEST
+
+
+  create or replace procedure hspt_details
+  as
+  cursor patient is select * from  hospitalj13 where bloodtest_ch not in(0) order by name;
+  
+  begin
+  dbms_output.put_line('Rajagiri Hospital, Ernakulam');
+  dbms_output.put_line('Details of patients undergone blood test');
+  dbms_output.put_line('--------------------------------------------');
+  dbms_output.put_line('Pat_id Name  Age  Doctor  p_typ Consult_ch  Bloodtst_ch  Xray_ch  Other_ch  Total_amt');
+  dbms_output.put_line('------------------------------------------------------');
+  for i in patient
+  loop
+  i.total_amt:=i.consult_ch+i.bloodtest_ch+i.xray_ch+i.other_ch;
+  update  hospitalj13 set total_amt=i.total_amt;
+  dbms_output.put_line((i.patient_id) ||' '|| (i.name) ||'      '|| (i.age) ||'    '|| (i.doctor) ||'     '|| (i.pa_type)||'      '|| (i.consult_ch) ||'      '|| (i.bloodtest_ch) ||'      '|| (i.xray_ch) ||'      '|| (i.other_ch)||'         '|| (i.total_amt));
+   end loop;
+  end;
+  /
+
+
+ begin
+ hspt_details;
+ end;
+  /
+
+Rajagiri Hospital, Ernakulam
+Details of patients undergone blood test
+--------------------------------------------
+Pat_id Name  Age  Doctor  p_typ Consult_ch  Bloodtst_ch  Xray_ch  Other_ch
+Total_amt
+------------------------------------------------------
+1005 joe      27    dr.tanu     IP      250      200      300      150
+900
+1004 kumar      46    dr.babu     OP      250      200      0      250
+700
+1002 manoj      35    dr.babu     IP      250      200      300      100
+850
+1001 reha      25    dr.asha     IP      250      200      0      300
+750
+
+PL/SQL procedure successfully completed.
+
+
+  
+b) PATIENTS WITH XRAY TEST
+
+  create or replace procedure hspt_details
+  as
+  cursor patient is select * from  hospitalj13 where xray_ch not in(0) order by name;
+  
+  begin
+  dbms_output.put_line('Rajagiri Hospital, Ernakulam');
+  dbms_output.put_line('Details of patients undergone blood test');
+  dbms_output.put_line('--------------------------------------------');
+  dbms_output.put_line('Pat_id Name  Age  Doctor  p_typ Consult_ch  Bloodtst_ch  Xray_ch  Other_ch  Total_amt');
+  dbms_output.put_line('------------------------------------------------------');
+  for i in patient
+  loop
+  i.total_amt:=i.consult_ch+i.bloodtest_ch+i.xray_ch+i.other_ch;
+  update  hospitalj13 set total_amt=i.total_amt;
+  dbms_output.put_line((i.patient_id) ||' '|| (i.name) ||'      '|| (i.age) ||'    '|| (i.doctor) ||'     '|| (i.pa_type)||'      '|| (i.consult_ch) ||'      '|| (i.bloodtest_ch) ||'      '|| (i.xray_ch) ||'      '|| (i.other_ch)||'         '|| (i.total_amt));
+   end loop;
+  end;
+  /
+
+ begin
+ hspt_details;
+ end;
+  /
+
+Rajagiri Hospital, Ernakulam
+Details of patients undergone blood test
+--------------------------------------------
+Pat_id Name  Age  Doctor  p_typ Consult_ch  Bloodtst_ch  Xray_ch  Other_ch
+Total_amt
+------------------------------------------------------
+1005 joe      27    dr.tanu     IP      250      200      300      150
+900
+1003 leena      30    dr.biju     OP      250      0      300      100
+650
+1002 manoj      35    dr.babu     IP      250      200      300      100
+850
+
+PL/SQL procedure successfully completed.
+
+
+
+
