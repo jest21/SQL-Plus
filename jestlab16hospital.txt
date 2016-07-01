@@ -1,0 +1,78 @@
+create table hospitalj13(patient_id int primary key,
+       name varchar(20) not null,
+       age number(3) not null,
+       doctor varchar(20) not null,
+       pa_type varchar(15) not null,
+       consult_ch number(6) not null,
+       bloodtest_ch number(6) not null,
+       xray_ch number(6) not null,
+       other_ch number(6) not null,
+       total_amt number(6));
+
+insert into hospitalj13(patient_id,name,age,doctor,pa_type,consult_ch,bloodtest_ch,xray_ch,other_ch) values(1001,'reha',25,'dr.asha','IP',250,200,0,300); 
+insert into hospitalj13(patient_id,name,age,doctor,pa_type,consult_ch,bloodtest_ch,xray_ch,other_ch) values(1002,'manoj',35,'dr.babu','IP',250,200,300,100); 
+insert into hospitalj13(patient_id,name,age,doctor,pa_type,consult_ch,bloodtest_ch,xray_ch,other_ch) values(1003,'leena',30,'dr.biju','OP',250,0,300,100); 
+insert into hospitalj13(patient_id,name,age,doctor,pa_type,consult_ch,bloodtest_ch,xray_ch,other_ch) values(1004,'kumar',46,'dr.babu','OP',250,200,0,250); 
+insert into hospitalj13(patient_id,name,age,doctor,pa_type,consult_ch,bloodtest_ch,xray_ch,other_ch) values(1005,'joe',27,'dr.tanu','IP',250,200,300,150); 
+
+
+
+  set serveroutput on;
+  create or replace procedure hspt_details
+  as
+  cursor inpatient is select * from  hospitalj13 where pa_type='IP' order by name;
+  cursor outpatient is select * from  hospitalj13 where pa_type='OP' order by name;
+  begin
+  dbms_output.put_line('Rajagiri Hospital, Ernakulam');
+  dbms_output.put_line('Details of in-patients');
+  dbms_output.put_line('--------------------------------------------');
+  dbms_output.put_line('Pat_id Name  Age  Doctor  p_typ Consult_ch  Bloodtst_ch  Xray_ch  Other_ch  Total_amt');
+  dbms_output.put_line('------------------------------------------------------');
+  for i in inpatient
+  loop
+  i.total_amt:=i.consult_ch+i.bloodtest_ch+i.xray_ch+i.other_ch;
+  update  hospitalj13 set total_amt=i.total_amt;
+  dbms_output.put_line((i.patient_id) ||' '|| (i.name) ||'   '|| (i.age) ||' '|| (i.doctor) ||'  '|| (i.pa_type)||'     '|| (i.consult_ch) ||'    '|| (i.bloodtest_ch) ||'    '|| (i.xray_ch) ||'    '|| (i.other_ch)||'  '|| (i.total_amt));
+  end loop;
+  dbms_output.put_line('---------------------------------------------------');
+  dbms_output.put_line('Details of out-patients');
+  dbms_output.put_line('---------------------------------------------------');
+  dbms_output.put_line('Pat_id Name  Age  Doctor  p_typ Consult_ch  Bloodtst_ch  Xray_ch  Other_ch  Total_amt');
+  dbms_output.put_line('---------------------------------------------------');
+  for j in outpatient
+  loop
+  j.total_amt:=j.consult_ch+j.bloodtest_ch+j.xray_ch+j.other_ch;
+  update  hospitalj13 set total_amt=j.total_amt;
+  dbms_output.put_line((j.patient_id) ||' '|| (j.name) ||'  '|| (j.age) ||' '|| (j.doctor) ||'  '|| (j.pa_type)||'      '|| (j.consult_ch) ||'    '|| (j.bloodtest_ch) ||'    '|| (j.xray_ch) ||'    '|| (j.other_ch)||'  '|| (j.total_amt));
+ end loop;
+  end;
+  /
+
+Procedure created.
+
+ begin
+ hspt_details;
+ end;
+  /
+
+
+
+Rajagiri Hospital, Ernakulam
+Details of in-patients
+--------------------------------------------
+Pat_id Name  Age  Doctor  p_typ Consult_ch  Bloodtst_ch  Xray_ch  Other_ch
+Total_amt
+------------------------------------------------------
+1005 joe   27  dr.tanu  IP     250    200    300    150  900
+1002 manoj   35  dr.babu  IP     250    200    300    100  850
+1001 reha   25  dr.asha  IP     250    200    0    300  750
+---------------------------------------------------
+Details of out-patients
+---------------------------------------------------
+Pat_id Name  Age  Doctor  p_typ Consult_ch  Bloodtst_ch  Xray_ch  Other_ch
+Total_amt
+---------------------------------------------------
+1004 kumar  46  dr.babu  OP      250    200    0    250  700
+1003 leena  30  dr.biju  OP      250    0    300    100  650
+
+PL/SQL procedure successfully completed.
