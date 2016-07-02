@@ -1,0 +1,38 @@
+create table electricity_bca023( consumer_id int primary key,name varchar(20) not null, bill_no number not null,fixed_ch int not null,units number not null,amount number);
+
+insert into electricity_bca023(consumer_id,name,bill_no,fixed_ch,units) values(12345,'joy',56348,40,90);
+insert into electricity_bca023(consumer_id,name,bill_no,fixed_ch,units) values(45876,'mary',89733,40,200);
+insert into electricity_bca023(consumer_id,name,bill_no,fixed_ch,units) values(76432,'geo',84563,40,49);
+insert into electricity_bca023(consumer_id,name,bill_no,fixed_ch,units) values(45876,'amal',45862,40,100);
+insert into electricity_bca023(consumer_id,name,bill_no,fixed_ch,units) values(21546,'johns',54862,40,150);
+insert into electricity_bca023(consumer_id,name,bill_no,fixed_ch,units) values(24631,'dani',24568,40,39);
+
+declare 
+total_amt electricity_bca023.amount%type;
+begin
+for i in (select * from electricity_bca023)
+loop
+if(i.units<=50) then
+total_amt:=i.fixed_ch;
+elsif(i.units<=100) then
+total_amt:=i.fixed_ch+i.units*3.60;
+else
+total_amt:=i.fixed_ch+i.units*5.00;
+end if;
+update electricity_bca023 set amount=total_amt where consumer_id=i.consumer_id;
+end loop;
+end;
+/
+
+output
+PL/SQL procedure successfully completed.
+
+SQL> select * from electricity_bca023;
+
+CONSUMER_ID NAME                    BILL_NO   FIXED_CH      UNITS     AMOUNT
+----------- -------------------- ---------- ---------- ---------- ----------
+      12345 joy                       56348         40         90        364
+      45876 mary                      89733         40        200       1040
+      76432 geo                       84563         40         49         40
+      21546 johns                     54862         40        150        790
+      24631 dani                      24568         40         39         40
