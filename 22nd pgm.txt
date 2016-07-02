@@ -1,0 +1,152 @@
+multiple tables.
+create or replace procedure mul_bca_023
+is
+N NUMBER(2):=&N;
+M NUMBER;
+BEGIN
+FOR I IN N..N+5
+LOOP
+FOR J IN 1..10
+LOOP
+M:=I*J;
+DBMS_OUTPUT.PUT_LINE(I||'*'||J||'='||M);
+END LOOP;
+DBMS_OUTPUT.PUT_LINE('*********************');
+END LOOP;
+END;
+/
+
+
+ begin
+ dbms_output.put_line('Multiple Table');
+ dbms_output.put_line('---------------');
+ mul_bca_023;
+ end;
+ /
+
+output
+Multiple Table
+---------------
+4*1=4
+4*2=8
+4*3=12
+4*4=16
+4*5=20
+4*6=24
+4*7=28
+4*8=32
+4*9=36
+4*10=40
+*********************
+5*1=5
+5*2=10
+5*3=15
+5*4=20
+5*5=25
+5*6=30
+5*7=35
+5*8=40
+5*9=45
+5*10=50
+*********************
+6*1=6
+6*2=12
+6*3=18
+6*4=24
+6*5=30
+6*6=36
+6*7=42
+6*8=48
+6*9=54
+6*10=60
+*********************
+7*1=7
+7*2=14
+7*3=21
+7*4=28
+7*5=35
+7*6=42
+7*7=49
+7*8=56
+7*9=63
+7*10=70
+*********************
+8*1=8
+8*2=16
+8*3=24
+8*4=32
+8*5=40
+8*6=48
+8*7=56
+8*8=64
+8*9=72
+8*10=80
+*********************
+9*1=9
+9*2=18
+9*3=27
+9*4=36
+9*5=45
+9*6=54
+9*7=63
+9*8=72
+9*9=81
+9*10=90
+*********************
+
+PL/SQL procedure successfully completed.
+
+
+create or replace procedure mul_bca_023
+is
+val number(3,1):=2;
+res number(4,1):=1;
+num number(5,1):=1;
+begin
+while(num<=10)
+loop
+res:=num*val;
+dbms_output.put_line(num||'*'||val||'='||res);
+num:=num+1;
+end loop;
+end;
+/
+
+Multiple Table
+---------------
+1*2=2
+2*2=4
+3*2=6
+4*2=8
+5*2=10
+6*2=12
+7*2=14
+8*2=16
+9*2=18
+10*2=20
+
+PL/SQL procedure successfully completed.
+
+
+
+fibonacci number
+
+create or replace procedure fib_num_bca_023
+is
+n number:=&n;
+t1 number:=0;
+t2 number:=1;
+t3 number;
+begin
+DBMS_OUTPUT.PUT_LINE("enter the value for n");
+DBMS_OUTPUT.PUT_LINE(t1);
+DBMS_OUTPUT.PUT_LINE(t2);
+for 1 in 3..n
+loop
+t3:=t1+t2;
+DBMS_OUTPUT.PUT_LINE(t3);
+t1:=t2;
+t2:=t3;
+end loop;
+end;
+/
