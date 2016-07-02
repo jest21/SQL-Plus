@@ -1,0 +1,24 @@
+create table hostal_bca023(hm_id int primary key,hm_name varchar(16) not null,phone number not null,days int not null,rent_ch number(5),
+mess_ch number(5,2),other_ch number(5,2),total number(7,2));
+
+insert into hostal_bca023(hm_id,hm_name,phone,days,rent_ch,mess_ch,other_ch) values(4500,'Janagi',98567643578,28,500,1000,400);
+insert into hostal_bca023(hm_id,hm_name,phone,days,rent_ch,mess_ch,other_ch) values(4600,'rani',9678453687,10,500,1000,400);
+insert into hostal_bca023(hm_id,hm_name,phone,days,rent_ch,mess_ch,other_ch) values(4700,'thahani',8956873490,20,500,1000,400);
+insert into hostal_bca023(hm_id,hm_name,phone,days,rent_ch,mess_ch,other_ch) values(4800,'christy',9468758905,14,500,1000,400);
+insert into hostal_bca023(hm_id,hm_name,phone,days,rent_ch,mess_ch,other_ch) values(4900,'Neha',9846944655,25,500,1000,400);
+insert into hostal_bca023(hm_id,hm_name,phone,days,rent_ch,mess_ch,other_ch) values(5000,'Mercy',8123986754,9,500,1000,400);
+
+declare
+total_amt hostal_bca023.total%type;
+begin
+for i in (select * from  hostal_bca023) 
+loop
+if (i.days>15)then
+total_amt:=i.rent_ch+i.mess_ch+i.other_ch;
+update hostal_bca023 set total=total_amt where hm_id=i.hm_id;
+else
+total_amt:=i.rent_ch+(i.mess_ch+i.other_ch)/2;
+update hostal_bca023 set total=total_amt where hm_id=i.hm_id;
+end if;
+end;
+/
