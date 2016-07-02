@@ -1,0 +1,29 @@
+create table library_bca023(bookid int primary key,book_name varchar(15) not null,author varchar(15) not null, no_cpys number(4) not null);
+
+insert into library_bca023 values(1001,'Prose and drama','joice',49);
+insert into library_bca023 values(2001,'general informatics','ram',57);
+insert into library_bca023 values(3001,'numerical skills','isec',3);
+insert into library_bca023 values(4001,'mgt infn system','sam',9);
+insert into library_bca023 values(5001,'kali','Abraham',28);
+insert into library_bca023 values(6001,'shakthi','seetha',0);
+
+declare
+book_id library_bca023.bookid%type;
+book_rec library_bca023%rowtype;
+begin
+select * into book_rec from library_bca023 where bookid=&book_id;
+dbms_output.put_line('Enter the book id:');
+if(book_rec.no_cpys>0)then
+dbms_output.put_line(book_rec.bookid);
+dbms_output.put_line('Nmae of the book');
+dbms_output.put_line(book_rec.book_name);
+dbms_output.put_line('Author of the book');
+dbms_output.put_line(book_rec.author);
+dbms_output.put_line('Available copies');
+dbms_output.put_line(book_rec.no_cpys);
+else
+dbms_output.put_line('Nmae of the book');
+dbms_output.put_line(book_rec.book_name)
+dbms_output.put_line('copies of this book are not avilable in library');
+end;
+/
